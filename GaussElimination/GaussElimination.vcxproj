@@ -149,6 +149,10 @@
   <ItemGroup>
     <ClCompile Include="GaussElimination.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="input_data.txt" />
+    <Text Include="n.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
