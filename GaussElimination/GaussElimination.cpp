@@ -7,13 +7,15 @@ const int N = 100;
 
 class GaussElimination {
 private:
-	float AB[N][N];
+	float AB[N][N], x[N];
 	int n;
-public:
 	void loadData(string filename, float arr[N][N], int n);
 	void loadData(string filename);
+public:
 	void eliminate(string fileInputData, string fileMartixSize);
+	void calculateMatrixValues();
 	void showMatrix(float arr[N][N]);
+	void showValues(float arr[N]);
 };
 
 void GaussElimination::loadData(string filename) {
@@ -36,40 +38,59 @@ void GaussElimination::loadData(string filename, float arr[N][N], int n) {
 void GaussElimination::eliminate(string fileInputData, string fileMartixSize) {
 	loadData(fileMartixSize);
 	loadData(fileInputData, AB, n);
-	
 
-		
-				
+	for (int i = 0; i < n - 1; i++) {
 
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j <= n; j++) {
-			showMatrix(AB);
-			float m = -AB[i + 1][j] / AB[i][j];
-			for (int k = 0; k < n + 1; k++) {
-				
-				AB[i + 1][j] += (AB[i][j] * m);
-			}
-			
+		for (int j = i + 1; j < n; j++) {
+
+			float divider = AB[j][i] / AB[i][i];
+
+			for (int k = 0; k < n + 1; k++)
+				AB[j][k] = AB[j][k] - divider * AB[i][k];
 		}
-		cout << endl;
+		showMatrix(AB);
 	}
+
 }
 
-void GaussElimination::showMatrix(float arr[N][N])
-{
+void GaussElimination::calculateMatrixValues() {
+
+	for (int i = n - 1; i >= 0; i--) {
+		x[i] = AB[i][n];
+
+		for (int j = i + 1; j < n; j++)
+			if (i != j)
+				x[i] = x[i] - AB[i][j] * x[j];
+
+		x[i] = x[i] / AB[i][i];
+	}
+	showValues(x);
+
+}
+
+void GaussElimination::showMatrix(float arr[N][N]) {
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j <= n; j++) {
-			cout << arr[i][j] << " ";
+			cout << arr[i][j] << "\t";
 		}
 		cout << endl;
 	}
 	cout << endl;
 }
 
+void GaussElimination::showValues(float arr[N])
+{
+	for (int i = 0; i < n; i++)
+		cout << "x" << i + 1 << " = " << x[i] << endl;
+}
+
 
 int main()
 {
 	GaussElimination gauss;
+	cout << "Eliminacja Gaussa:" << endl << endl;
 	gauss.eliminate("input_data.txt", "n.txt");
 
+	cout << "Niewiadome macierzy sa rowne:" << endl;
+	gauss.calculateMatrixValues();
 }
