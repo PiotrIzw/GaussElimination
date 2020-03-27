@@ -39,6 +39,8 @@ void GaussElimination::eliminate(string fileInputData, string fileMartixSize) {
 	loadData(fileMartixSize);
 	loadData(fileInputData, AB, n);
 
+	showMatrix(AB);
+
 	for (int i = 0; i < n - 1; i++) {
 
 		for (int j = i + 1; j < n; j++) {
@@ -46,7 +48,7 @@ void GaussElimination::eliminate(string fileInputData, string fileMartixSize) {
 			float divider = AB[j][i] / AB[i][i];
 
 			for (int k = 0; k < n + 1; k++)
-				AB[j][k] = AB[j][k] - divider * AB[i][k];
+				AB[j][k] -= divider * AB[i][k];
 		}
 		showMatrix(AB);
 	}
